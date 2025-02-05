@@ -1,0 +1,48 @@
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Encabezado del Modal -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Mensaje</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <!-- Cuerpo del Modal -->
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+                <img id="modalImage" class="img-fluid" style="display: none;" alt="Imagen del mensaje">
+            </div>
+
+            <!-- Pie del Modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para manejar la visualización del Modal -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener el mensaje desde Django (asegurar que sea seguro para JS)
+    const message = {{ message|safe }};
+
+    if (message) {
+        // Insertar el mensaje en el modal
+        document.getElementById("modalMessage").innerText = 
+            `[${message.type.toUpperCase()}] Código ${message.code}: ${message.message}`;
+
+        // Si hay una imagen, mostrarla
+        if (message.img) {
+            const imgElement = document.getElementById("modalImage");
+            imgElement.src = message.img;
+            imgElement.style.display = "block";
+        }
+
+        // Mostrar el modal de Bootstrap
+        const modal = new bootstrap.Modal(document.getElementById('messageModal'));
+        modal.show();
+    }
+});
+</script>
