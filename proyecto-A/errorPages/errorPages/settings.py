@@ -135,8 +135,7 @@ HANDLER404 = 'app.views.error_404_view'
 HANDLER500 = 'app.views.error_500_view'
 
 #quitar esto al subirlo al repositorio
-SEARCH_ENGINE_ID = 'd5a1ecb20e3e64282'
-GOOGLE_API_KEY = 'AIzaSyBKexcydVkNsuTdHiH5MEqVkiqCIALT5c0'
+
 
 # Inicio de sesion personalizado
 AUTH_USER_MODEL = 'users.CustomUser'

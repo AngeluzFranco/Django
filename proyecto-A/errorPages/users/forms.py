@@ -6,6 +6,28 @@ import re
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(
+        attrs={
+                'class': 'form-control',
+                'placeholder': 'Contraseña',
+                'pattern': '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+                'autocomplete': 'new-password',
+                'title': 'Debe tener al menos 8 caracteres, un número y un símbolo (!, #, $, %, & o ?)',
+                'required': True,
+            }
+        )
+    )
+    password2 = forms.CharField(label="Confirmar contraseña", widget=forms.PasswordInput(
+        attrs={
+                'class': 'form-control',
+                'placeholder': 'Confirmar contraseña',
+                'pattern': '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
+                'autocomplete': 'new-password',
+                'title': 'Debe coincidir con la contraseña ingresada anteriormente.',
+                'required': True,
+            }
+        )
+    )
     class Meta:
         model = CustomUser
         fields = ['email', 'name', 'surname', 'control_number', 'age', 'tel', 'password1', 'password2']
@@ -48,22 +70,6 @@ class CustomUserCreationForm(UserCreationForm):
                 'title': 'Debe ser un número de teléfono válido (10 dígitos)',
                 'required': True,
             }),
-            'password1': forms.PasswordInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Contraseña',
-                'pattern': '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-                'autocomplete': 'new-password',
-                'title': 'Debe tener al menos 8 caracteres, un número y un símbolo (!, #, $, %, & o ?)',
-                'required': True,
-            }),
-            'password2': forms.PasswordInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Confirmar contraseña',
-                'pattern': '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$',
-                'autocomplete': 'new-password',
-                'title': 'Debe coincidir con la contraseña ingresada anteriormente.',
-                'required': True,
-            }),
         }
 
     def clean_email(self):
@@ -104,7 +110,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserLoginForm(AuthenticationForm):
-    email = forms.CharField(label="Correo electrónico", max_length=150)
+    username = forms.CharField(label="Correo electrónico", max_length=150)
     password = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
 
     def clean(self):
